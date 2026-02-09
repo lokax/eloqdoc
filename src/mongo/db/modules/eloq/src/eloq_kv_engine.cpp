@@ -200,7 +200,7 @@ RecoveryUnit::UPtr EloqKVEngine::newRecoveryUnitUPtr() {
 }
 
 void EloqKVEngine::listDatabases(std::vector<std::string>& out) const {
-    MONGO_LOG(1) << "EloqKVEngine::listDatabases";
+    MONGO_LOG(0) << "EloqKVEngine::listDatabases";
 
     std::vector<std::string> tables;
 
@@ -229,7 +229,7 @@ void EloqKVEngine::listDatabases(std::vector<std::string>& out) const {
     for (const auto& name : out) {
         dbString.append(name).append("|");
     }
-    MONGO_LOG(1) << "tables: " << dbString;
+    MONGO_LOG(0) << "tables: " << dbString;
 }
 
 bool EloqKVEngine::databaseExists(std::string_view dbName) const {

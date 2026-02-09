@@ -337,6 +337,7 @@ ExitCode _initAndListen(int listenPort) {
     initializeStorageEngine(serviceContext, StorageEngineInitFlags::kNone);
 
 #ifdef MONGO_CONFIG_WIREDTIGER_ENABLED
+    log() << "yf: mongo config wiredtiger";
     if (EncryptionHooks::get(serviceContext)->restartRequired()) {
         exitCleanly(EXIT_CLEAN);
     }
@@ -345,6 +346,7 @@ ExitCode _initAndListen(int listenPort) {
     // Warn if we detect configurations for multiple registered storage engines in the same
     // configuration file/environment.
     if (serverGlobalParams.parsedOpts.hasField("storage")) {
+        log() << "yf: loop engine";
         BSONElement storageElement = serverGlobalParams.parsedOpts.getField("storage");
         invariant(storageElement.isABSONObj());
         for (auto&& e : storageElement.Obj()) {
@@ -378,6 +380,8 @@ ExitCode _initAndListen(int listenPort) {
               << "storage.journal.enabled is not set to 'false'.";
         exitCleanly(EXIT_BADOPTIONS);
     }
+
+    log() << "yf: start log warnnig";
 
     logMongodStartupWarnings(storageGlobalParams, serverGlobalParams, serviceContext);
 

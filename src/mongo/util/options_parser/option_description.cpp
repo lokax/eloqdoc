@@ -279,7 +279,7 @@ OptionDescription& OptionDescription::incompatibleWith(const std::string& otherD
     return addConstraint(new MutuallyExclusiveKeyConstraint(_dottedName, otherDottedName));
 }
 
-OptionDescription& OptionDescription::requires(const std::string& otherDottedName) {
+OptionDescription& OptionDescription::mongo_requires(const std::string& otherDottedName) {
     return addConstraint(new RequiresOtherKeyConstraint(_dottedName, otherDottedName));
 }
 

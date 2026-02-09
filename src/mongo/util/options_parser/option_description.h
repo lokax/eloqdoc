@@ -187,7 +187,7 @@ public:
      * provided must be the dottedName, which is the name used to access the option in the
      * result Environment.
      */
-    OptionDescription& requires(const std::string& otherDottedName);
+    OptionDescription& mongo_requires(const std::string& otherDottedName);
 
     /**
      * Specifies that this option is required to match the given format, specified as a regular

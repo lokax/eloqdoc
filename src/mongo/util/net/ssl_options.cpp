@@ -126,7 +126,7 @@ Status storeDisabledProtocols(const std::string& disabledProtocols,
 
     return Status::OK();
 }
-}  // nameapace
+}  // namespace
 
 SSLParams sslGlobalParams;
 
@@ -152,15 +152,14 @@ Status parseCertificateSelector(SSLParams::CertificateSelector* selector,
     if (key != "thumbprint") {
         return {ErrorCodes::BadValue,
                 str::stream() << "Unknown certificate selector property for '" << name << "': '"
-                              << key
-                              << "'"};
+                              << key << "'"};
     }
 
     auto swHex = hexToVector(value.substr(delim + 1));
     if (!swHex.isOK()) {
         return {ErrorCodes::BadValue,
-                str::stream() << "Invalid certificate selector value for '" << name << "': "
-                              << swHex.getStatus().reason()};
+                str::stream() << "Invalid certificate selector value for '" << name
+                              << "': " << swHex.getStatus().reason()};
     }
 
     selector->thumbprint = std::move(swHex.getValue());
@@ -280,39 +279,39 @@ Status addSSLClientOptions(moe::OptionSection* options) {
     options
         ->addOptionChaining(
             "ssl.CAFile", "sslCAFile", moe::String, "Certificate Authority file for SSL")
-        .requires("ssl");
+        .mongo_requires("ssl");
 
     options
         ->addOptionChaining(
             "ssl.PEMKeyFile", "sslPEMKeyFile", moe::String, "PEM certificate/key file for SSL")
-        .requires("ssl");
+        .mongo_requires("ssl");
 
     options
         ->addOptionChaining("ssl.PEMKeyPassword",
                             "sslPEMKeyPassword",
                             moe::String,
                             "password for key in PEM file for SSL")
-        .requires("ssl");
+        .mongo_requires("ssl");
 
     options
         ->addOptionChaining(
             "ssl.CRLFile", "sslCRLFile", moe::String, "Certificate Revocation List file for SSL")
-        .requires("ssl")
-        .requires("ssl.CAFile");
+        .mongo_requires("ssl")
+        .mongo_requires("ssl.CAFile");
 
     options
         ->addOptionChaining("net.ssl.allowInvalidHostnames",
                             "sslAllowInvalidHostnames",
                             moe::Switch,
                             "allow connections to servers with non-matching hostnames")
-        .requires("ssl");
+        .mongo_requires("ssl");
 
     options
         ->addOptionChaining("ssl.allowInvalidCertificates",
                             "sslAllowInvalidCertificates",
                             moe::Switch,
                             "allow connections to servers with invalid certificates")
-        .requires("ssl");
+        .mongo_requires("ssl");
 
     options->addOptionChaining(
         "ssl.FIPSMode", "sslFIPSMode", moe::Switch, "activate FIPS 140-2 mode at startup");

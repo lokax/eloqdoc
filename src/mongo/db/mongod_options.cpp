@@ -444,7 +444,7 @@ Status addMongodOptions(moe::OptionSection* options) {
             "a MongoDB Extended JSON document in string format")
         .setSources(moe::SourceYAMLConfig)
         .incompatibleWith("configsvr")
-        .requires("storage.queryableBackupMode");
+        .mongo_requires("storage.queryableBackupMode");
 
     sharding_options
         .addOptionChaining("noMoveParanoia",
